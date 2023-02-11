@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "services.service",
+      "type": "java.lang.String",
+      "description": "Description for services.service."
+    },
+    {
+      "name": "spring.datasource.mvc:hiddenmethod:filter:enabled",
+      "type": "java.lang.String",
+      "description": "Description for spring.datasource.mvc:hiddenmethod:filter:enabled."
+    }
+  ] }

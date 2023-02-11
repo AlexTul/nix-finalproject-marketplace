@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--Header-->
+    <header th:insert="blocks/header-login-register :: header"></header>
+
+<!--Main layout-->
+    <div class="container">
+        <div class="col-sm-6">
+            <h3 style="margin-top: 10px" th:text="#{updatecredential}"></h3>
+            <p th:text="#{fillloginform}"></p>
+
+            <form th:action="@{/admins/users/{id}(id=${user.id})}" th:method="PUT" th:object="${user}">
+                <div class="form-group">
+                    <label for="firstName" th:text="#{firstname}"></label>
+                    <input type="text" class="form-control form-control-lg"
+                           required minlength="2" maxlength="30" th:field="*{firstName}" placeholder="First name"
+                           name="firstName" id="firstName">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName" th:text="#{lastname}"></label>
+                    <input type="text" class="form-control form-control-lg"
+                           required minlength="2" maxlength="30" th:field="*{lastName}" placeholder="Last name"
+                           name="lastName" id="lastName">
+                </div>
+
+                <div class="form-group">
+                    <label for="email" th:text="#{email}"></label>
+                    <input type="email" class="form-control form-control-lg"
+                           required minlength="6" maxlength="32" th:field="*{email}" placeholder="some@some.com"
+                           name="email" id="email" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted" th:text="#{noshareemail}"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" th:text="#{password}"></label>
+                    <input type="password" class="form-control form-control-lg"
+                           required minlength="6" maxlength="32" placeholder="Password"
+                           name="password" id="password">
+                </div>
+
+                <input type="submit" value="Register" class="btn btn-primary btn-block">
+            </form>
+
+        </div>
+    </div>
+<!--Main layout-->
+
+<!--Footer-->
+    <footer th:insert="blocks/footer-admin :: footer"></footer>
+</body>
+</html>

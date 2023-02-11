@@ -1,0 +1,25 @@
+/*
+ * Copyright (c) 2022
+ * For NIX Solutions
+ */
+package com.nixsolution.alextuleninov.marketplace.marketplaceweb.io.remove;
+
+import com.nixsolution.alextuleninov.marketplace.marketplaceweb.model.goods.GoodsUI;
+
+/**
+ * Interface for the removing goods image from local folder.
+ *
+ * @author Oleksandr Tuleninov
+ * @version 01
+ */
+public interface Remover {
+
+    /**
+     * Remove goods image from local folder.
+     *
+     * @param uploadPath    folder with goods image
+     * @param response      response with removed goods from database
+     */
+    boolean remove(String uploadPath, GoodsUI response);
+
+}

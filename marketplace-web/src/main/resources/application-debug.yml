@@ -1,0 +1,3 @@
+logging:
+  level:
+    com.nixsolution.alextuleninov.marketplace.marketplaceweb: debug

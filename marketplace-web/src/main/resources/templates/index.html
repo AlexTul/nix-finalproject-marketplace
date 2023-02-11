@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Market Place</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<br>
+<!--Header-->
+<header th:insert="blocks/header :: header"></header>
+
+<!--Main layout-->
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 g-2">
+            <div class="col-sm-3">
+                <h4 th:text="#{categories}"></h4>
+                <ul class="list-group">
+                    <a th:href="@{/}">
+                        <li class="list-group-item" th:text="#{allgoods}"></li>
+                    </a>
+                    <a href="" th:each="category, iStat : ${categories}"
+                       th:href="@{/categories/{id}(id=${category.id})}">
+                        <li class="list-group-item" th:text="${category.name}"></li>
+                    </a>
+                </ul>
+            </div>
+
+            <!--Universal layer to show all products and products by categoryId-->
+            <div class="col-sm-9">
+
+                <!--Customers pagination-->
+                <pagination th:insert="blocks/pager-index :: pager"></pagination>
+                <!--Customers pagination-->
+
+                <div class="card shadow-sm" style="margin-top: 20px" th:each="goods : ${goods}">
+                    <div class="row no-gutters">
+                        <div class="col-sm-5 d-flex justify-content-center">
+                            <img class="d-inline-block align-top"  src="" th:src="@{${'/files/' + goods.imageName}}"
+                                 height="150px" width="auto" alt=""/>
+                        </div>
+                        <div class="col-sm-7 d-flex justify-content-center">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${goods.name}"></h5>
+                                <h4>$ <span th:text="${goods.price}"></span></h4>
+                                <p th:text="${goods.description}"></p>
+                                <a href="#" th:href="@{/view/{id}(id=${goods.id})}" class="btn btn-primary">View
+                                    goods</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Universal layer to show all products and products by categoryId-->
+
+        </div>
+    </div>
+</div>
+<!--Main layout-->
+
+<!--Footer-->
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

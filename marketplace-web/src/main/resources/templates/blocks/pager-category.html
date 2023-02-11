@@ -1,0 +1,35 @@
+<div th:fragment="pager" xmlns="http://www.w3.org/1999/html">
+    <nav aria-label="Pagination" th:if="${categories.totalPages gt 0}">
+        <ul class="pagination justify-content-center font-weight-medium">
+            <li class="page-item" th:classappend="${categories.number eq 0} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/categories?page={id}(id=${categories.number lt 2 ? 1 : categories.number})}"
+                   aria-label="Previous"
+                   title="Previous Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${i eq categories.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence( categories.number + 1, categories.totalPages > 10 + categories.number ? categories.number + 10 : categories.totalPages, 1)}">
+                <a class="page-link" th:href="@{/categories?page={id}(id=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}"
+                   rel="tooltip"></a>
+            </li>
+
+            <li class="page-item disabled" th:if="${categories.number + 10 < categories.totalPages}">
+                <a class="page-link svg-icon" href="#">
+                    <span data-feather="more-horizontal" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${categories.number + 1 eq categories.totalPages} ? 'disabled'">
+                <a class="page-link svg-icon" th:href="@{/categories?page={id}(id=${categories.number + 2})}"
+                   aria-label="Next"
+                   title="Next Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

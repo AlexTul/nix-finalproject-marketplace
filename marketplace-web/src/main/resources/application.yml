@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: dev
+    group:
+      dev:
+        - local-dev
+        - debug
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  jpa:
+    open-in-view: false
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    port: 465
+    protocol: smtps
+  web:
+    resources:
+      static-locations: file:./files/
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 8081
+
+services:
+  marketplace:
+    api: localhost:8080
+    messages: http://localhost:8081
+
+feign:
+  autoconfiguration:
+    jackson:
+      enabled: true
+
+upload:
+  path: ./files
+  pathPatterns: /files/**

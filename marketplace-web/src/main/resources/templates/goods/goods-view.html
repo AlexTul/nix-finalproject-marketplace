@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Goods</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--Header-->
+    <header th:insert="blocks/header :: header"></header>
+
+<!--Main layout-->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-sm-5 d-flex justify-content-center">
+                <img class="mt-5" src="" th:src="@{${'/files/' + goods.imageName}}" height="300px" width="auto"
+                      alt=""/>
+            </div>
+            <div class="col-sm-7 mt-5">
+                <h2 th:text="${goods.name}"></h2>
+                <p th:text="${goods.category.name}"></p>
+                <h2>$ <span th:text="${goods.price}"></span></h2>
+                <label th:text="#{weight}"></label>
+                    <span th:text="${goods.weight}"></span>
+                    <label th:text="#{grams}"></label>
+                </h5>
+                <p th:text="${goods.description}"></p>
+                <form th:action="@{/view/{id}(id = ${goods.id})}" th:method="POST">
+                    <button class="btn btn-primary">Add to cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+<!--Main layout-->
+
+<!--Footer-->
+    <footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
