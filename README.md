@@ -20,4 +20,5 @@ Admin credentials:<br>
 Admin menu:<br>
 ●	/admins
 
-To see available endpoints, go to [http://localhost:8080/swagger-ui.html]()
+To see available REST API endpoints, go to [http://localhost:8080/swagger-ui/index.html]()
+To see an application, go to [http://localhost:8081]()
