@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Goods view</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--Header-->
+<div th:if="${#session?.getAttribute('headerContent')} == null">
+    <header th:insert="blocks/header :: header"></header>
+</div>
+<div th:if="${#session?.getAttribute('headerContent')} == 'header-user'">
+    <header th:insert="blocks/header-user :: header"></header>
+</div>
+<div th:if="${#session?.getAttribute('headerContent')} == 'header-admin'">
+    <header th:insert="blocks/header-admin :: header"></header>
+</div>
+<!--Header-->
+
+<!--Main layout-->
+<div class="row" style="text-align: center">
+    <div class="col-lg-5"></div>
+
+    <div class="col-lg-2">
+        <div class="col-sm-5 d-flex justify-content-center">
+            <img class="mt-5" src="" th:src="@{${'/files/' + goods.imageName}}" height="300px" width="auto"
+                 alt=""/>
+        </div>
+        <div class="col-sm-7 mt-5">
+            <h2 th:text="${goods.name}"></h2>
+            <p th:text="${goods.category.name}"></p>
+            <h2>$ <span th:text="${goods.price}"></span></h2>
+            <label th:text="#{weight.cart}"></label>
+            <span th:text="${goods.weight}"></span>
+            <label th:text="#{grams}"></label>
+            <p th:text="${goods.description}"></p>
+            <a th:href="@{/web/v1/cart/{id}(id = ${goods.id})}" class="btn btn-primary" th:text="#{add.to.cart}"></a>
+        </div>
+    </div>
+
+    <div class="col-lg-5"></div>
+</div>
+<br>
+<!--Main layout-->
+
+<!--Footer-->
+<header th:insert="blocks/footer :: footer"></header>
+
+</body>
+</html>

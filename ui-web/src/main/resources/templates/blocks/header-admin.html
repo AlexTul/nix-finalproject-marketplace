@@ -1,0 +1,22 @@
+<div th:fragment="header" xmlns="http://www.w3.org/1999/html">
+    <header class="container-fluid site-header sticky-top py-1 card shadow-sm">
+        <!--Navbar-->
+        <div class="d-flex flex-column flex-md-row align-items-center pb-3 mb-4 border-bottom">
+            <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+                <!--User`s name-->
+                <p class="me-3 py-2 text-dark text-decoration-none fa-align-right" th:text="${#session?.getAttribute('login')}"></p>
+                <!--User`s name-->
+                <div class="me-3 py-2 text-decoration-none">
+                    <a th:href="@{'?locale=uk'}">UK</a>
+                    <a th:href="@{'?locale=en'}">EN</a>
+                </div>
+                <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/}" th:text="#{main}"></a>
+                <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/web/v1/admins}" th:text="#{menu}"></a>
+                <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/web/v1/logout}" th:text="#{logout}"></a>
+                <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{/web/v1/cart}" th:text="#{cart}"></a>
+                <a class="me-3 py-2 text-dark text-decoration-none" th:href="@{#}" th:text="${#session?.getAttribute('cartSize')}"></a>
+            </nav>
+        </div>
+        <!--Navbar-->
+    </header>
+</div>

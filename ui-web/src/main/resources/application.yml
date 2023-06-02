@@ -1,0 +1,129 @@
+spring:
+  profiles:
+    active: dev
+    group:
+      dev:
+        - local-dev
+        - debug
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  jpa:
+    open-in-view: false
+    show-sql: true
+  mail:
+    host: smtp.gmail.com
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    port: 465
+    protocol: smtps
+    message:
+      messageSuccessfulActivation: Successful activation
+      messageSuccessfulActivationUk: Успішна активація
+      messagePassword: Password and confirmation password do not match
+      messagePasswordUk: Пароль і пароль підтвердження не збігаються
+      messageFillCaptcha: Fill in the captcha
+      messageFillCaptchaUk: Заповніть капчу
+      host: http://localhost:8081
+      subjectRegister: Successful register
+      subjectRegisterUk: Успішна реєстрація
+      messageRegister: |
+        Dear user,
+        welcome to Us. Please, visit next link: %s/web/v1/users/%s/activate.
+        Best Regards,
+        Team
+      messageRegisterUk: |
+        Шановний користувач,
+        ласкаво просимо до нас. Будь-ласка, перейдіть за наступним посиланням: %s/web/v1/users/%s/activate.
+        З найкращими побажаннями,
+        Команда
+      subjectStatus: Your status was change
+      subjectStatusUk: Ваш статус був змінений
+      messageStatus: |
+        Dear user, your status was change.
+        Your status is: %s.
+        Best Regards,
+        Team
+      messageStatusUk: |
+        Шановний користувач, Ваш статус був змінений.
+        Ваш статус: %s.
+        З найкращими побажаннями,
+        Команда
+      subjectMerge: Your data was change
+      subjectMergeUk: Ваші дані були змінені
+      messageMerge: |
+        Dear user, your data was change.
+        Your login is: %s, nickname is: %s.
+        Best Regards,
+        Team
+      messageMergeUk: |
+        Шановний користувач, Ваші дані були змінені.
+        Ваш логін: %s, нікнейм: %s.
+        З найкращими побажаннями,
+        Команда
+      subjectChangePassword: Your data was change
+      subjectChangePasswordUk: Ваші дані були змінені
+      messageChangePassword: |
+        Dear user, your data was change.
+        Your login is: %s, nickname is: %s, password is: %s.
+        Best Regards,
+        Team
+      messageChangePasswordUk: |
+        Шановний користувач, Ваші дані були змінені.
+        Ваш логін: %s, нікнейм: %s, пароль: %s.
+        З найкращими побажаннями,
+        Команда
+      subjectDelete: Your profile was delete
+      subjectDeleteUk: Ваш профіль був видалений
+      messageDelete: |
+        Dear user, your profile was delete.
+        Your login is: %s, nickname is: %s.
+        Best Regards,
+        Team
+      messageDeleteUk: |
+        Шановний користувач, Ваш профіль був видалений.
+        Ваш логін: %s, нікнейм: %s.
+        З найкращими побажаннями,
+        Команда
+      subjectForgot: Password recovery
+      subjectForgotUk: Відновлення паролю
+      messageForgot: |
+        Dear user, your password has been reset.
+        Your login is: %s, password is: %s.
+        Please change your password.
+        Best Regards,
+        Team
+      messageForgotUk: |
+        Шановний користувач, Ваш пароль скинуто.
+        Ваш логін: %s, пароль: %s.
+        Будь-ласка, змініть пароль.
+        З найкращими побажаннями,
+        Команда
+  web:
+    resources:
+      static-locations: file:./files/
+
+recaptcha:
+  url: https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s
+  secret: ${RECAPTCHA_SECRET}
+  sitekey: ${RECAPTCHA_SITEKEY}
+
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
+  port: 8081
+
+feign:
+  autoconfiguration:
+    jackson:
+      enabled: true
+
+services:
+  server:
+    api: localhost:8080
+
+upload:
+  path: ./files
+  patterns: /files/**

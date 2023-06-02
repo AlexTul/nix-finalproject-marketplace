@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Goods</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--Header-->
+<header th:insert="blocks/header-admin :: header"></header>
+
+<!--Main layout-->
+<div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8">
+        <div class="tab-pane fade show active" id="goods" role="tabpanel"
+             aria-labelledby="internet-tab">
+
+            <h3 style="text-align: center" th:text="#{goods}"></h3>
+
+            <div class="text-lg-center">
+                <a class="btn btn-primary btn-lg" th:href="@{/web/v1/goods/create}"
+                   role="button" th:text="#{add.goods}"></a>
+            </div>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col" th:text="#{name}"></th>
+                    <th scope="col" th:text="#{category}"></th>
+                    <th scope="col" th:text="#{price}"></th>
+                    <th scope="col" th:text="#{weight}"></th>
+                    <th scope="col" th:text="#{description}"></th>
+                    <th scope="col" th:text="#{preview}"></th>
+                    <th scope="col" th:text="#{merge}"></th>
+                    <th scope="col" th:text="#{delete}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="goods, iStat : ${objects}">
+                    <td th:text="${goods.id}">Larry</td>
+                    <td th:text="${goods.name}">Larry</td>
+                    <td th:text="${goods.category.name}">Larry</td>
+                    <td th:text="${goods.price}">Larry</td>
+                    <td th:text="${goods.weight}">Larry</td>
+                    <td th:text="${goods.description}">Larry</td>
+                    <td>
+                        <img class="d-inline-block align-top"  src="" th:src="@{${'/files/' + goods.imageName}}"
+                             height="100px" width="auto" alt=""/>
+                    </td>
+                    <td>
+                        <a class="btn btn-warning btn-lg"
+                           th:href="@{/web/v1/goods/{id}(id=${goods.id})}"
+                           role="button"></a>
+                    </td>
+                    <td>
+                        <form th:method="delete" th:action="@{/web/v1/goods/{id}(id=${goods.id})}">
+                            <button type="submit" class="btn btn-danger btn-lg"></button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!--Pagination-->
+            <pagination th:insert="blocks/pager :: pager"></pagination>
+            <!--Pagination-->
+        </div>
+
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+<!--Main layout-->
+
+<!--Footer-->
+<header th:insert="blocks/footer :: footer"></header>
+
+</body>
+</html>

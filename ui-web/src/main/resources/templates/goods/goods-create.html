@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Goods create</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--Header-->
+<header th:insert="blocks/header-admin :: header"></header>
+
+<!--Main layout-->
+<div class="row" style="text-align: center">
+    <div class="col-lg-5"></div>
+
+    <div class="col-lg-2">
+        <h2 th:text="#{register.data}"></h2>
+
+        <form class="form-signing" method="post" th:action="@{/web/v1/goods}" enctype="multipart/form-data" th:object="${goods}">
+            <label for="nameGoods" th:text="#{form.goods}"></label>
+            <input type="text" id="nameGoods" name="name" class="form-control form-control-lg"
+                   th:placeholder="#{name}"
+                   minlength="2" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\\- ]{2,}" required>
+            <div style="text-align: center">
+                <p style="color: red" th:text="${messageErrorName}"></p>
+            </div>
+            <br>
+
+            <label for="categoryIdType" th:text="#{select.category}"></label>
+            <select id="categoryIdType" name="categoryId" class="form-control">
+                <option th:each="category :${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}">
+            </select>
+            <div style="text-align: center">
+                <p style="color: red" th:text="${messageErrorCategoryId}"></p>
+            </div>
+            <br>
+
+            <label for="priceGoods" th:text="#{form.price}"></label>
+            <input type="number" id="priceGoods" name="price" step="0.01" class="form-control"
+                   th:placeholder="#{price}"
+                   min="0.01"required>
+            <div style="text-align: center">
+                <p style="color: red" th:text="${messageErrorPrice}"></p>
+            </div>
+            <br>
+
+            <label for="weightGoods" th:text="#{form.weight}"></label>
+            <input type="number" id="weightGoods" name="weight" class="form-control"
+                   th:placeholder="#{weight}"
+                   min="1" required>
+            <div style="text-align: center">
+                <p style="color: red" th:text="${messageErrorWeight}"></p>
+            </div>
+            <br>
+
+            <label for="goodsDescription" th:text="#{form.description}"></label>
+            <textarea id="goodsDescription" name="description" class="form-control" rows="5"
+                      th:text="#{description}"
+                      minlength="10" required></textarea>
+            <div style="text-align: center">
+                <p style="color: red" th:text="${messageErrorDescription}"></p>
+            </div>
+            <br>
+
+            <label th:text="#{form.goods.image}"></label>
+            <div class="custom-file">
+                <label for="goodsImage" th:text="#{form.choose.file}" class="custom-file-label"></label>
+                <input type="file" id="goodsImage" name="goodsImage" class="custom-file-input"
+                       accept="image/jpeg, image/png"/>
+            </div>
+            <img src="#" id="imgPreview" height="100px" width="100px"
+                 th:src="@{${'/files/' + goods.imageName}}" style="margin-top: 20px" alt=" ">
+            <div style="text-align: center">
+                <p style="color: red" th:text="${messageErrorImageName}"></p>
+            </div>
+            <br><br>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{register}"></button>
+        </form>
+
+    </div>
+
+    <div class="col-lg-5"></div>
+</div>
+<br>
+<!--Main layout-->
+
+<!--Footer-->
+<header th:insert="blocks/footer :: footer"></header>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result).width(100).height(100);
+            }
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    $('#goodsImage').change(function () {
+        readURL(this);
+    });
+    $(".custom-file-input").on("change", function () {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+</script>
+
+</body>
+</html>

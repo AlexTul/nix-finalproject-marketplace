@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Market Place</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<br>
+<!--Header-->
+<div th:if="${#session?.getAttribute('headerContent')} == null">
+    <header th:insert="blocks/header :: header"></header>
+</div>
+<div th:if="${#session?.getAttribute('headerContent')} == 'header-user'">
+    <header th:insert="blocks/header-user :: header"></header>
+</div>
+<div th:if="${#session?.getAttribute('headerContent')} == 'header-admin'">
+    <header th:insert="blocks/header-admin :: header"></header>
+</div>
+<!--Header-->
+
+<!--Main layout-->
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 g-2">
+            <div class="col-sm-3">
+                <h4 th:text="#{categories}"></h4>
+                <ul class="list-group">
+                    <a th:href="@{/}">
+                        <li class="list-group-item" th:text="#{all.goods}"></li>
+                    </a>
+                    <a href="" th:each="category, iStat : ${categories}"
+                       th:href="@{web/v1/goods/category/{id}(id=${category.id})}">
+                        <li class="list-group-item" th:text="${category.name}"></li>
+                    </a>
+                </ul>
+            </div>
+
+            <!--Universal layer to show all products and products by categoryId-->
+            <div class="col-sm-9">
+                <div class="card shadow-sm" style="margin-top: 20px" th:each="goods : ${objects}">
+                    <div class="row no-gutters">
+                        <div class="col-sm-5 d-flex justify-content-center">
+                            <img class="d-inline-block align-top" src="" th:src="@{${'/files/' + goods.imageName}}"
+                                 height="150px" width="auto" alt=""/>
+                        </div>
+                        <div class="col-sm-7 d-flex justify-content-center">
+                            <div class="card-body">
+                                <h5 class="card-title" th:text="${goods.name}"></h5>
+                                <h4>$ <span th:text="${goods.price}"></span></h4>
+                                <p th:text="${goods.description}"></p>
+                                <a th:href="@{/web/v1/goods/view/{id}(id=${goods.id})}" class="btn btn-primary" th:text="#{view.goods}"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <!--Pagination-->
+                <pagination th:insert="blocks/pager :: pager"></pagination>
+                <!--Pagination-->
+            </div>
+            <!--Universal layer to show all products and products by categoryId-->
+
+        </div>
+    </div>
+</div>
+<!--Main layout-->
+
+<!--Footer-->
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

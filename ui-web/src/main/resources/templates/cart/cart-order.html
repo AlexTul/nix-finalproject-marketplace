@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cart</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+</head>
+<body>
+<!--Header-->
+<div th:if="${#session?.getAttribute('headerContent')} == null">
+    <header th:insert="blocks/header :: header"></header>
+</div>
+<div th:if="${#session?.getAttribute('headerContent')} == 'header-user'">
+    <header th:insert="blocks/header-user :: header"></header>
+</div>
+<div th:if="${#session?.getAttribute('headerContent')} == 'header-admin'">
+    <header th:insert="blocks/header-admin :: header"></header>
+</div>
+<!--Header-->
+
+<!--Main layout-->
+<div class="container">
+
+    <!--Section: Block Content-->
+    <section class="mt-5 mb-4">
+
+        <!--Grid row-->
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-lg-8 mb-4">
+
+                <!-- Card -->
+                <div class="card wish-list pb-1">
+                    <div class="card-body">
+
+                        <h5 class="mb-2" th:text="#{contacts}"></h5>
+
+                        <!-- Grid row -->
+                        <div class="row">
+
+                            <!-- Grid column -->
+                            <div class="col-lg-6">
+
+                                <!-- First name -->
+                                <div class="md-form md-outline mb-0 mb-lg-4">
+                                    <label for="firstName" th:text="#{name.first}"></label>
+                                    <input type="text" id="firstName" name="firstName"
+                                           class="form-control form-control-lg"
+                                           th:placeholder="#{name.first}"
+                                           minlength="2" maxlength="30" required>
+                                </div>
+
+                            </div>
+                            <!-- Grid column -->
+
+                            <!-- Grid column -->
+                            <div class="col-lg-6">
+
+                                <!-- Last name -->
+                                <div class="md-form md-outline">
+                                    <label for="lastName" th:text="#{name.last}"></label>
+                                    <input type="text" id="lastName" name="lastName" class="form-control form-control-lg"
+                                           th:placeholder="#{name.last}"
+                                           minlength="2" maxlength="30" required>
+                                </div>
+
+                            </div>
+                            <!-- Grid column -->
+
+                        </div>
+                        <!-- Grid row -->
+
+                        <!-- Email address -->
+                        <div class="md-form md-outline mt-2">
+                            <label for="email" th:text="#{email}"></label>
+                            <input type="email" id="email" name="email" class="form-control form-control-lg"
+                                   th:placeholder="#{email}" aria-describedby="emailHelp"
+                                   required minlength="6" maxlength="32">
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="md-form md-outline mt-2">
+                            <label for="firstName" th:text="#{phone}"></label>
+                            <input type="number" id="phone" name="phone" class="form-control form-control-lg"
+                                   th:placeholder="#{phone}"
+                                   minlength="10" maxlength="13" required>
+                        </div>
+
+                        <!-- Delivery address -->
+                        <div class="d-flex flex-wrap">
+                            <div class="select-outline position-relative w-100">
+                                <label for="lastName" th:text="#{address}"></label>
+                                <input type="text" id="address" name="address" class="form-control form-control-lg"
+                                       th:placeholder="#{address.delivery}"
+                                       required>
+                            </div>
+                        </div>
+
+                        <!-- Additional information -->
+                        <div class="md-form md-outline mt-2">
+                            <label for="lastName" th:text="#{additional.information}"></label>
+                            <textarea id="form76" class="md-textarea form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card -->
+
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-lg-4">
+
+                <!-- Card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-3" th:text="#{amount.total}"></h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                <span th:text="#{amount.payable}"></span>
+                                <span>$<span th:text="${total}"></span></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span th:text="#{shipping}"></span>
+                                <span th:text="#{gratis}"></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                <div>
+                                    <strong th:text="#{amount.total}"></strong>
+                                    <strong>
+                                        <p class="mb-0" th:text="#{includingVAT}"></p>
+                                    </strong>
+                                </div>
+                                <span><strong>$<span th:text="${total}"></span></strong></span>
+                            </li>
+                        </ul>
+
+                        <form action="" method="post" th:action="@{/}">
+                            <button type="submit" class="btn btn-primary btn-block waves-effect waves-light"
+                                    th:text="#{pay}"></button>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Card -->
+
+                <!-- Card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <a class="dark-grey-text d-flex justify-content-between" data-toggle="collapse"
+                           href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            <span th:text="#{discount.add}"></span>
+                            <span><i class="fas fa-chevron-down pt-1"></i></span>
+                        </a>
+
+                        <div class="collapse" id="collapseExample">
+                            <div class="mt-3">
+                                <div class="md-form md-outline mb-0">
+                                    <input type="text" id="discount-code" class="form-control font-weight-light"
+                                           th:placeholder="#{discount.code}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="SE-UE UnbBY rVj-5"><span th:text="#{button.enter}"></span>
+                            <a href="" target="_blank" rel="noreferrer" class="fLODX TiD7J oturh a851B">
+                                <span th:text="#{politica}"></span>
+                            </a> MarketPlace.ua.
+                        </span>
+
+                </div>
+                <!-- Card -->
+
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+    </section>
+    <!--Section: Block Content-->
+
+</div>
+<!--Main layout-->
+
+<!--Footer-->
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>
