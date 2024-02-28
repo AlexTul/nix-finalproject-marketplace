@@ -6,10 +6,9 @@ import com.tuleninov.web.model.goods.response.GoodsUIResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import static com.tuleninov.web.config.security.SecurityConstantsUI.AUTH_CLAIM;
 
 /**
  * Feign Client for the Goods.
@@ -32,7 +31,7 @@ public interface GoodsServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    GoodsUIResponse create(@RequestHeader(AUTH_CLAIM) String token,
+    GoodsUIResponse create(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                            @RequestBody SaveGoodsUIRequest request);
 
     /**
@@ -84,7 +83,7 @@ public interface GoodsServiceFeignClient {
             value = Routes.API_GOODS + "/{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    GoodsUIResponse mergeGoodsById(@RequestHeader(AUTH_CLAIM) String token,
+    GoodsUIResponse mergeGoodsById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                    @PathVariable int id,
                                    @RequestBody SaveGoodsUIRequest request);
 
@@ -99,6 +98,6 @@ public interface GoodsServiceFeignClient {
             value = Routes.API_GOODS + "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    GoodsUIResponse deleteGoodsById(@RequestHeader(AUTH_CLAIM) String token,
+    GoodsUIResponse deleteGoodsById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                     @PathVariable int id);
 }

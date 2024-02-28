@@ -5,12 +5,11 @@ import com.tuleninov.web.model.auth.request.RefreshTokenUIRequest;
 import com.tuleninov.web.model.auth.request.SignInUIRequest;
 import com.tuleninov.web.model.auth.response.AccessTokenUIResponse;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-
-import static com.tuleninov.web.config.security.SecurityConstantsUI.AUTH_CLAIM;
 
 /**
  * Feign Client for the Authentication.
@@ -57,6 +56,6 @@ public interface AuthServiceFeignClient {
             value = Routes.API_TOKEN + "/invalidate",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    void invalidate(@RequestHeader(AUTH_CLAIM) String token,
+    void invalidate(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                     @RequestBody RefreshTokenUIRequest request);
 }

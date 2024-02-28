@@ -7,10 +7,9 @@ import com.tuleninov.web.model.user.response.UserUIResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import static com.tuleninov.web.config.security.SecurityConstantsUI.AUTH_CLAIM;
 
 /**
  * Feign Client for the User.
@@ -72,7 +71,7 @@ public interface UserServiceFeignClient {
             value = Routes.API_USERS + "/me",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse getCurrentUser(@RequestHeader(AUTH_CLAIM) String token);
+    UserUIResponse getCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token);
 
     /**
      * Merge current user in database.
@@ -87,7 +86,7 @@ public interface UserServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse mergeCurrentUser(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse mergeCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                     @RequestBody MergeUserUIRequest request);
 
     /**
@@ -103,7 +102,7 @@ public interface UserServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse changeCurrentUserPassword(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse changeCurrentUserPassword(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                              @RequestBody ChangeUserUIPasswordRequest request);
 
     /**
@@ -114,7 +113,7 @@ public interface UserServiceFeignClient {
     @DeleteMapping(
             value = Routes.API_USERS + "/me"
     )
-    void deleteCurrentUser(@RequestHeader(AUTH_CLAIM) String token);
+    void deleteCurrentUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String token);
 
     /**
      * Get the user by id from the database in response format.
@@ -127,7 +126,7 @@ public interface UserServiceFeignClient {
             value = Routes.API_USERS + "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse getUserById(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse getUserById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                @PathVariable long id);
 
     /**
@@ -141,7 +140,7 @@ public interface UserServiceFeignClient {
             value = Routes.API_USERS + "/admins",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Page<UserUIResponse> listUsers(@RequestHeader(AUTH_CLAIM) String token,
+    Page<UserUIResponse> listUsers(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                    Pageable pageable);
 
     /**
@@ -154,7 +153,7 @@ public interface UserServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse registerAdmin(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse registerAdmin(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                  @RequestBody SaveUserUIRequest request,
                                  @RequestParam String code);
 
@@ -172,7 +171,7 @@ public interface UserServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse mergeUserById(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse mergeUserById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                  @PathVariable long id,
                                  @RequestBody MergeUserUIRequest request);
 
@@ -190,7 +189,7 @@ public interface UserServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse changeUserStatusById(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse changeUserStatusById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                         @PathVariable long id,
                                         @RequestBody ChangeUserUIStatusRequest request);
 
@@ -208,7 +207,7 @@ public interface UserServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse changeUserPassword(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse changeUserPassword(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                       @PathVariable long id,
                                       @RequestBody OverrideUserUIPasswordRequest request);
 
@@ -223,6 +222,6 @@ public interface UserServiceFeignClient {
             value = Routes.API_USERS + "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    UserUIResponse deleteById(@RequestHeader(AUTH_CLAIM) String token,
+    UserUIResponse deleteById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                               @PathVariable long id);
 }

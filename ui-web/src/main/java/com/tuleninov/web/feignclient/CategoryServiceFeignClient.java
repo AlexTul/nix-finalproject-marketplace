@@ -6,13 +6,12 @@ import com.tuleninov.web.model.category.response.CategoryUIResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
-import static com.tuleninov.web.config.security.SecurityConstantsUI.AUTH_CLAIM;
 
 /**
  * Feign Client for the Category.
@@ -34,7 +33,7 @@ public interface CategoryServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    CategoryUIResponse create(@RequestHeader(AUTH_CLAIM) String token,
+    CategoryUIResponse create(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                               @RequestBody @Valid SaveCategoryUIRequest request);
 
     /**
@@ -48,7 +47,7 @@ public interface CategoryServiceFeignClient {
             value = Routes.API_CATEGORIES,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    Page<CategoryUIResponse> listCategories(@RequestHeader(AUTH_CLAIM) String token,
+    Page<CategoryUIResponse> listCategories(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                             Pageable pageable);
 
     /**
@@ -73,7 +72,7 @@ public interface CategoryServiceFeignClient {
             value = Routes.API_CATEGORIES + "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    CategoryUIResponse getCategoryById(@RequestHeader(AUTH_CLAIM) String token,
+    CategoryUIResponse getCategoryById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                        @PathVariable int id);
 
     /**
@@ -88,7 +87,7 @@ public interface CategoryServiceFeignClient {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    CategoryUIResponse mergeCategoryById(@RequestHeader(AUTH_CLAIM) String token,
+    CategoryUIResponse mergeCategoryById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                          @PathVariable int id,
                                          @RequestBody @Valid SaveCategoryUIRequest request);
 
@@ -102,6 +101,6 @@ public interface CategoryServiceFeignClient {
             value = Routes.API_CATEGORIES + "/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    CategoryUIResponse deleteCategoryById(@RequestHeader(AUTH_CLAIM) String token,
+    CategoryUIResponse deleteCategoryById(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,
                                           @PathVariable int id);
 }

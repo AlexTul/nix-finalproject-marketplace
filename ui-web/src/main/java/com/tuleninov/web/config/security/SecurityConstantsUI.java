@@ -8,5 +8,4 @@ public final class SecurityConstantsUI {
 
     public static final String AUTH_TOKEN_PREFIX = "Bearer ";
 
-    public static final String AUTH_CLAIM = "Authorization";
 }
