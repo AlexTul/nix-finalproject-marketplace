@@ -1,4 +1,4 @@
-package com.tuleninov.serverapi.exceptions;
+package com.tuleninov.serverapi.exceptions.user;
 
 import com.tuleninov.serverapi.exceptions.auth.InvalidRefreshTokenException;
 import org.springframework.http.HttpStatus;

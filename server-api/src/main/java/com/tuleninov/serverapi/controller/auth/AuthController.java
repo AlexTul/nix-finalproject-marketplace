@@ -1,7 +1,7 @@
 package com.tuleninov.serverapi.controller.auth;
 
 import com.tuleninov.serverapi.Routes;
-import com.tuleninov.serverapi.exceptions.UserExceptions;
+import com.tuleninov.serverapi.exceptions.user.UserExceptions;
 import com.tuleninov.serverapi.exceptions.auth.InvalidRefreshTokenException;
 import com.tuleninov.serverapi.model.auth.CustomUserDetails;
 import com.tuleninov.serverapi.model.auth.request.RefreshTokenRequest;

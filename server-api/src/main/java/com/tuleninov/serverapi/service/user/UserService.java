@@ -1,6 +1,6 @@
 package com.tuleninov.serverapi.service.user;
 
-import com.tuleninov.serverapi.exceptions.UserExceptions;
+import com.tuleninov.serverapi.exceptions.user.UserExceptions;
 import com.tuleninov.serverapi.model.auth.CustomUserDetails;
 import com.tuleninov.serverapi.model.user.CustomUser;
 import com.tuleninov.serverapi.model.user.KnownAuthority;
