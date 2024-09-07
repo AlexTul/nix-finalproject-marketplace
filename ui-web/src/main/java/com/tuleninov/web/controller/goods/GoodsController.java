@@ -6,7 +6,7 @@ import com.tuleninov.web.config.pagination.ConfigDTO;
 import com.tuleninov.web.config.pagination.PaginationConfig;
 import com.tuleninov.web.controller.TokenProvider;
 import com.tuleninov.web.controller.category.CategoryController;
-import com.tuleninov.web.controller.exceptions.FileExceptions;
+import com.tuleninov.web.exceptions.FileExceptions;
 import com.tuleninov.web.io.remove.Remover;
 import com.tuleninov.web.io.write.Writer;
 import com.tuleninov.web.model.goods.GoodsUI;

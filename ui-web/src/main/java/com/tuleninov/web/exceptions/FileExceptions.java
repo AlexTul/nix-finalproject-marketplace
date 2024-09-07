@@ -1,4 +1,4 @@
-package com.tuleninov.web.controller.exceptions;
+package com.tuleninov.web.exceptions;
 
 public final class FileExceptions {
 

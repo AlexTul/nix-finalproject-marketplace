@@ -1,4 +1,4 @@
-package com.tuleninov.web.controller.exceptions;
+package com.tuleninov.web.exceptions;
 
 import com.tuleninov.web.Routes;
 import com.tuleninov.web.controller.logout.LogoutController;
