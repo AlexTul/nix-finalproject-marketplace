@@ -1,9 +1,7 @@
 package com.tuleninov.web.exceptions;
 
 import com.tuleninov.web.Routes;
-import com.tuleninov.web.controller.logout.LogoutController;
 import feign.FeignException;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.tuleninov.web.AppConstants.*;
 
@@ -29,46 +29,42 @@ import static com.tuleninov.web.AppConstants.*;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(LogoutController.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * Handle validation exceptions on UI side.
      *
-     * @param e                  errors
+     * @param ex                 errors
      * @param redirectAttributes the given flash attribute
      * @return the page where the error occurred
      */
     @ExceptionHandler(BindException.class)
-    public String handleBindException(BindException e, RedirectAttributes redirectAttributes, HttpServletRequest req) {
-        String objectName = e.getBindingResult().getObjectName();
-        Object login = req.getSession().getAttribute(SCOPE_LOGIN);
+    public String handleMethodArgumentNotValidException(BindException ex,
+                                                        RedirectAttributes redirectAttributes,
+                                                        HttpServletRequest req) {
+        String objectName = ex.getObjectName();
 
         switch (objectName) {
             case "forgotPasswordUIRequest" -> {
-                createMessage(e, EMAIL, redirectAttributes, SCOPE_MESSAGE_ERROR_EMAIL);
+                handleUIValidationError(ex, redirectAttributes);
+
                 return "redirect:" + Routes.WEB_USERS + "/forgot";
             }
             case "saveUserUIRequest" -> {
-                createMessage(e, EMAIL, redirectAttributes, SCOPE_MESSAGE_ERROR_EMAIL);
-                createMessage(e, NICKNAME, redirectAttributes, SCOPE_MESSAGE_ERROR_NICKNAME);
-                createMessage(e, PASSWORD, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD);
-                createMessage(e, PASSWORD_CONFIRM, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD_CONFIRM);
-                if (login != null) {
-                    return "redirect:" + Routes.WEB_USERS + "/admins";
-                } else {
-                    return "redirect:" + Routes.WEB_USERS + "/register";
-                }
+                handleUIValidationError(ex, redirectAttributes);
+                Object login = req.getSession().getAttribute(SCOPE_LOGIN);
+
+                return (login != null) ? "redirect:" + Routes.WEB_USERS + "/admins"
+                        : "redirect:" + Routes.WEB_USERS + "/register";
             }
             case "overrideUserUIPasswordRequest" -> {
-                createMessage(e, PASSWORD, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD);
-                createMessage(e, PASSWORD_CONFIRM, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD_CONFIRM);
+                handleUIValidationError(ex, redirectAttributes);
                 String url = req.getRequestURL().toString();
                 long id = extractIdForUrlByOverrideUserUIPasswordRequest(url);
                 return "redirect:" + Routes.WEB_USERS + "/" + id + "/password";
             }
             case "mergeUserUIRequest" -> {
-                createMessage(e, EMAIL, redirectAttributes, SCOPE_MESSAGE_ERROR_EMAIL);
-                createMessage(e, NICKNAME, redirectAttributes, SCOPE_MESSAGE_ERROR_NICKNAME);
+                handleUIValidationError(ex, redirectAttributes);
                 String url = req.getRequestURL().toString();
                 long id = extractIdFromUrlForMergeUserUIRequest(url);
                 if (id > -1) {
@@ -78,22 +74,15 @@ public class GlobalExceptionHandler {
                 }
             }
             case "changeUserUIPasswordRequest" -> {
-                createMessage(e, PASSWORD_OLD, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD_OLD);
-                createMessage(e, PASSWORD_NEW, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD_NEW);
-                createMessage(e, PASSWORD_CONFIRM, redirectAttributes, SCOPE_MESSAGE_ERROR_PASSWORD_CONFIRM);
+                handleUIValidationError(ex, redirectAttributes);
                 return "redirect:" + Routes.WEB_PROFILE + "/me/password";
             }
             case "saveCategoryUIRequest" -> {
-                createMessage(e, NAME, redirectAttributes, SCOPE_MESSAGE_ERROR_NAME);
+                handleUIValidationError(ex, redirectAttributes);
                 return "redirect:" + Routes.WEB_CATEGORIES + "/create";
             }
             case "saveGoodsUIRequest" -> {
-                createMessage(e, NAME, redirectAttributes, SCOPE_MESSAGE_ERROR_NAME);
-                createMessage(e, CATEGORY_ID, redirectAttributes, SCOPE_MESSAGE_ERROR_CATEGORY_ID);
-                createMessage(e, PRICE, redirectAttributes, SCOPE_MESSAGE_ERROR_PRICE);
-                createMessage(e, WEIGHT, redirectAttributes, SCOPE_MESSAGE_ERROR_WEIGHT);
-                createMessage(e, DESCRIPTION, redirectAttributes, SCOPE_MESSAGE_ERROR_DESCRIPTION);
-                createMessage(e, IMAGE_NAME, redirectAttributes, SCOPE_MESSAGE_ERROR_IMAGE_NAME);
+                handleUIValidationError(ex, redirectAttributes);
                 return "redirect:" + Routes.WEB_GOODS + "/create";
             }
             default -> {
@@ -105,19 +94,23 @@ public class GlobalExceptionHandler {
     /**
      * Handle exceptions on server side.
      *
-     * @param e     errors
+     * @param ex    error
      * @param model holder for model attributes
      * @return error page
      */
     @ExceptionHandler(FeignException.class)
-    public String handleBadRequestException(FeignException e, HttpServletRequest req, Model model) {
-        HttpStatus status = HttpStatus.resolve(e.status());
-        if (status == HttpStatus.NOT_FOUND ||
-                status == HttpStatus.BAD_REQUEST ||
-                status == HttpStatus.FORBIDDEN) {
-            String message = StringUtils.substringBetween(e.getMessage(), "message\":\"", "\",\"path");
+    public String handleServerBadRequestException(FeignException ex, HttpServletRequest req, Model model) {
+        HttpStatus status = HttpStatus.resolve(ex.status());
+        if (status == HttpStatus.METHOD_NOT_ALLOWED
+                || status == HttpStatus.NOT_FOUND
+                || status == HttpStatus.BAD_REQUEST
+                || status == HttpStatus.FORBIDDEN
+                || status == HttpStatus.UNAUTHORIZED) {
+            String errorMessage = ex.getMessage();
+            String message = createMessage(status, errorMessage);
+
+            log.error(errorMessage);
             model.addAttribute(SCOPE_MESSAGE, message);
-            log.error(message);
 
             return "error/error";
         } else {
@@ -135,14 +128,14 @@ public class GlobalExceptionHandler {
     }
 
     /**
-     * Handle File exceptions.
+     * Handle File exceptions on UI side.
      *
      * @param model holder for model attributes
      * @return error page
      */
     @ExceptionHandler(RuntimeException.class)
-    public String handleFileException(RuntimeException e, Model model) {
-        String message = e.getMessage();
+    public String handleUIFileException(RuntimeException ex, Model model) {
+        String message = ex.getMessage();
         model.addAttribute(SCOPE_MESSAGE, message);
         log.error(message);
 
@@ -156,20 +149,25 @@ public class GlobalExceptionHandler {
      * @return error page
      */
     @ExceptionHandler(Exception.class)
-    public String handleException(Model model) {
+    public String handleException(Exception e, Model model) {
         model.addAttribute(SCOPE_MESSAGE, "Something is wrong");
-        log.error("Something is wrong in the UI side");
+        log.error(e.getMessage());
 
         return "error/error";
     }
 
-    private void createMessage(BindException e, String field, RedirectAttributes redirectAttributes, String scopeMessageError) {
-        FieldError fieldError = e.getBindingResult().getFieldError(field);
-        if (fieldError != null) {
-            String message = Objects.requireNonNull(e.getBindingResult().getFieldError(field)).getDefaultMessage();
-            log.error(message);
-            redirectAttributes.addFlashAttribute(scopeMessageError, message);
-        }
+    private void handleUIValidationError(BindException ex, RedirectAttributes redirectAttributes) {
+        log.error(ex.getMessage());
+        FieldError fieldError = ex.getFieldError();
+        String message = Objects.requireNonNull(fieldError).getDefaultMessage();
+        redirectAttributes.addFlashAttribute(Objects.requireNonNull(fieldError).getField(), message);
+    }
+
+    private String createMessage(HttpStatus status, String errorMessage) {
+        String regex = "error\":\"" + status + " \\\\\"(.*?)\\\\\"";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(errorMessage);
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     private long extractIdForUrlByOverrideUserUIPasswordRequest(String url) {

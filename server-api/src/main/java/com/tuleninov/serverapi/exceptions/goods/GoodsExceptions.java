@@ -9,7 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
  * @author Oleksandr Tuleninov
  * @version 01
  */
-public class GoodsExceptions {
+public final class GoodsExceptions {
 
     private GoodsExceptions() {
     }

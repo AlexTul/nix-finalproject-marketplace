@@ -24,7 +24,7 @@
                    th:placeholder="#{name}"
                    minlength="2" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\\- ]{2,}" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorName}"></p>
+                <p style="color: red" th:text="${name}"></p>
             </div>
             <br>
 
@@ -35,7 +35,7 @@
                         th:text="${category.name}">
             </select>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorCategoryId}"></p>
+                <p style="color: red" th:text="${categoryId}"></p>
             </div>
             <br>
 
@@ -44,7 +44,7 @@
                    th:placeholder="#{price}"
                    min="0.01"required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorPrice}"></p>
+                <p style="color: red" th:text="${price}"></p>
             </div>
             <br>
 
@@ -53,7 +53,7 @@
                    th:placeholder="#{weight}"
                    min="1" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorWeight}"></p>
+                <p style="color: red" th:text="${weight}"></p>
             </div>
             <br>
 
@@ -62,7 +62,7 @@
                       th:text="#{description}"
                       minlength="10" required></textarea>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorDescription}"></p>
+                <p style="color: red" th:text="${description}"></p>
             </div>
             <br>
 
@@ -75,7 +75,7 @@
             <img src="#" id="imgPreview" height="100px" width="100px"
                  th:src="@{${'/files/' + goods.imageName}}" style="margin-top: 20px" alt=" ">
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorImageName}"></p>
+                <p style="color: red" th:text="${imageName}"></p>
             </div>
             <br><br>
 

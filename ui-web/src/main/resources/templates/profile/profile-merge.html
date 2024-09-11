@@ -23,7 +23,7 @@
                    th:field="*{email}"
                    minlength="2" maxlength="40" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorEmail}"></p>
+                <p style="color: red" th:text="${email}"></p>
             </div>
 
             <label for="nickname" th:text="#{form.nickname}"></label>
@@ -31,7 +31,7 @@
                    th:field="*{nickname}"
                    minlength="2" maxlength="40" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\\- ]{2,20}" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorNickname}"></p>
+                <p style="color: red" th:text="${nickname}"></p>
             </div>
             <br>
 

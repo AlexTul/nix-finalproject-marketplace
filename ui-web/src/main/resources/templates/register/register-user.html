@@ -25,7 +25,7 @@
                    placeholder="email@gmail.com"
                    minlength="2" maxlength="40" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorEmail}"></p>
+                <p style="color: red" th:text="${email}"></p>
             </div>
 
             <label for="nickname" th:text="#{form.nickname}"></label>
@@ -33,7 +33,7 @@
                    th:placeholder="#{nickname}"
                    minlength="2" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\\- ]{2,}" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorNickname}"></p>
+                <p style="color: red" th:text="${nickname}"></p>
             </div>
 
             <label for="password" th:text="#{form.password}"></label>
@@ -41,7 +41,7 @@
                    th:placeholder="#{password}"
                    minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,}$" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorPassword}"></p>
+                <p style="color: red" th:text="${password}"></p>
             </div>
 
             <label for="confirmPassword" th:text="#{form.password.confirm}"></label>
@@ -49,7 +49,7 @@
                    th:placeholder="#{password.confirm}"
                    minlength="8" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{8,}$" required>
             <div style="text-align: center">
-                <p style="color: red" th:text="${messageErrorPasswordConfirm}"></p>
+                <p style="color: red" th:text="${confirmPassword}"></p>
             </div>
             <div style="text-align: center">
                 <p style="color: red" th:text="${messageErrorPasswordNotMatch}"></p>
