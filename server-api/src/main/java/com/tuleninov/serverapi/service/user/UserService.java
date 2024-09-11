@@ -336,7 +336,7 @@ public class UserService implements UserDetailsService, UserOperations {
      * @param length password length
      * @return encode password
      */
-    public static String generateRandomPassword(int length) {
+    private String generateRandomPassword(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
         var random = new SecureRandom();
         StringBuilder password = new StringBuilder();

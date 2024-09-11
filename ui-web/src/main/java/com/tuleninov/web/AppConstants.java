@@ -35,31 +35,7 @@ public final class AppConstants {
     public static final String SCOPE_CART_SIZE = "cartSize";
     public static final String SCOPE_CAPTCHA_ERROR = "captchaError";
     public static final String SCOPE_SITE_KEY = "siteKey";
-    public static final String SCOPE_MESSAGE_ERROR_EMAIL = "messageErrorEmail";
-    public static final String SCOPE_MESSAGE_ERROR_NICKNAME = "messageErrorNickname";
-    public static final String SCOPE_MESSAGE_ERROR_PASSWORD = "messageErrorPassword";
-    public static final String SCOPE_MESSAGE_ERROR_PASSWORD_CONFIRM = "messageErrorPasswordConfirm";
     public static final String SCOPE_MESSAGE_ERROR_PASSWORD_NOT_MATCH = "messageErrorPasswordNotMatch";
-    public static final String SCOPE_MESSAGE_ERROR_PASSWORD_OLD = "messageErrorPasswordOld";
-    public static final String SCOPE_MESSAGE_ERROR_PASSWORD_NEW = "messageErrorPasswordNew";
-    public static final String SCOPE_MESSAGE_ERROR_NAME = "messageErrorName";
-    public static final String SCOPE_MESSAGE_ERROR_CATEGORY_ID = "messageErrorCategoryId";
-    public static final String SCOPE_MESSAGE_ERROR_PRICE = "messageErrorNamePrice";
-    public static final String SCOPE_MESSAGE_ERROR_WEIGHT = "messageErrorWeight";
-    public static final String SCOPE_MESSAGE_ERROR_DESCRIPTION = "messageErrorDescription";
-    public static final String SCOPE_MESSAGE_ERROR_IMAGE_NAME = "messageErrorImageName";
-    public static final String EMAIL = "email";
-    public static final String NICKNAME = "nickname";
-    public static final String PASSWORD = "password";
-    public static final String PASSWORD_CONFIRM = "confirmPassword";
-    public static final String PASSWORD_NEW = "newPassword";
-    public static final String PASSWORD_OLD = "oldPassword";
-    public static final String NAME = "name";
-    public static final String CATEGORY_ID = "categoryId";
-    public static final String PRICE = "price";
-    public static final String WEIGHT = "weight";
-    public static final String DESCRIPTION = "description";
-    public static final String IMAGE_NAME = "imageName";
     // endregion scope
 
     // region to format date and time
